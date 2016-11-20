@@ -1,38 +1,38 @@
 # ----- Main function -----
 __main__.main
 
-    # ----- Create `CustomClient` -----
-    __main__.CustomClient.__init__ -> ws4py.client.threadedclient.WebSocketClient.__init__
+    # ----- Create `CustomWebSocketClient` -----
+    __main__.CustomWebSocketClient.__init__ -> ws4py.client.threadedclient.WebSocketClient.__init__
 
         # ----- Call super constructor -----
-        __main__.CustomClient.__init__ -> ws4py.client.WebSocketBaseClient.__init__
+        __main__.CustomWebSocketClient.__init__ -> ws4py.client.WebSocketBaseClient.__init__
 
             # ----- Create socket -----
             socket.socket.__init__
 
             # ----- Call super constructor -----
-            __main__.CustomClient.__init__ -> ws4py.websocket.WebSocket.__init__
+            __main__.CustomWebSocketClient.__init__ -> ws4py.websocket.WebSocket.__init__
 
                 # ----- Create `Stream` -----
                 ws4py.streaming.Stream.__init__
 
                 # ----- Set `stream` -----
-                __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='stream'
+                __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='stream'
 
                 # ----- Set `sock` -----
-                __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='sock'
+                __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='sock'
 
                 # ----- Set `client_terminated` -----
-                __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=False )
+                __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=False )
 
                 # ----- Set `server_terminated` -----
-                __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='server_terminated', value=False )
+                __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='server_terminated', value=False )
 
             # ----- Set handshake request key -----
             """
             self.key = b64encode(os.urandom(16))
             """
-            __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='key'
+            __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='key'
 
             # ----- Create `Thread` -----
             # 6OBCB
@@ -46,12 +46,12 @@ __main__.main
             """
 
             # ----- Set ----- `self._th` -----
-            __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='_th'
+            __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='_th'
 
     # ----- Call `connect` -----
-    __main__.CustomClient.connect -> ws4py.client.WebSocketBaseClient.connect
+    __main__.CustomWebSocketClient.connect -> ws4py.client.WebSocketBaseClient.connect
 
-        # ----- Call socket `connect` -----
+        # ----- Connect socket -----
         socket.socket.connect -> _socket.socket.connect
 
         # ----- Write handshake request -----
@@ -65,7 +65,7 @@ __main__.main
         # Origin: ws://127.0.0.1:9000\r\n
         # \r\n
         #
-        __main__.CustomClient._write -> ws4py.websocket.WebSocket._write
+        __main__.CustomWebSocketClient._write -> ws4py.websocket.WebSocket._write
 
             # Write to socket
             socket.socket.sendall -> _socket.socket.sendall
@@ -92,10 +92,10 @@ __main__.main
         socket.socket.recv -> _socket.socket.recv
 
         # ----- Ensure HTTP response code is 101 -----
-        __main__.CustomClient.process_response_line
+        __main__.CustomWebSocketClient.process_response_line -> ws4py.client.WebSocketBaseClient.process_response_line
 
         # ----- Process HTTP response headers -----
-        __main__.CustomClient.process_handshake_header -> ws4py.client.WebSocketBaseClient.process_handshake_header
+        __main__.CustomWebSocketClient.process_handshake_header -> ws4py.client.WebSocketBaseClient.process_handshake_header
 
             # Ensure header `Upgrade` value is `websocket`.
             # Ensure header `Connection` value is `Upgrade`.
@@ -106,25 +106,25 @@ __main__.main
             # Return protocols and extensions.
 
         # ----- Set `protocols` -----
-        __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='protocols'
+        __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='protocols'
 
         # ----- Set `extensions` -----
-        __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='extensions'
+        __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='extensions'
 
         # ----- Call `handshake_ok` -----
-        __main__.CustomClient.handshake_ok -> ws4py.client.threadedclient.WebSocketClient.handshake_ok
+        __main__.CustomWebSocketClient.handshake_ok -> ws4py.client.threadedclient.WebSocketClient.handshake_ok
 
             # ----- Start the thread created at 6OBCB -----
-            # Notes of the thread start at 5QSST.
+            # Thread function's notes continue at 5QSST.
             #
             """
             self._th.start()
             """
 
-    # Call `run_forever`
-    __main__.CustomClient.run_forever -> ws4py.client.threadedclient.WebSocketClient.run_forever
+    # ----- Call `run_forever` -----
+    __main__.CustomWebSocketClient.run_forever -> ws4py.client.threadedclient.WebSocketClient.run_forever
 
-        # Wait for the thread running `WebSocket.run` to terminate
+        # ----- Wait for the thread running `WebSocket.run` to terminate -----
         """
         while not self.terminated:
             self._th.join(timeout=0.1)
@@ -133,16 +133,16 @@ __main__.main
 
 # ----- Thread function -----
 # 5QSST
-T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
+__main__.CustomWebSocketClient.run -> ws4py.websocket.WebSocket.run
 
     # -----  Set socket be blocking -----
     socket.socket.setblocking -> _socket.socket.setblocking
 
     # ----- Call `opened` -----
-    __main__.CustomClient.opened
+    __main__.CustomWebSocketClient.opened
 
-        # ----- Send data to server -----
-        __main__.CustomClient.send -> ws4py.websocket.WebSocket.send => ( payload='hello', binary=False )
+        # ----- Send message to server -----
+        __main__.CustomWebSocketClient.send -> ws4py.websocket.WebSocket.send
 
             # ----- Call `text_message` -----
             """
@@ -161,7 +161,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
             # ----- Call `single` -----
             ws4py.messaging.TextMessage.single
 
-                # ----- Create a frame with the fin bit set and a random mask -----
+                # ----- Create `Frame` -----
                 """
                 mask = os.urandom(4) if mask else None
                 return Frame(body=self.data, opcode=self.opcode,
@@ -173,9 +173,9 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                 ws4py.framing.Frame.build
 
             # ----- Write frame bytes to server -----
-            __main__.CustomClient._write -> ws4py.websocket.WebSocket._write
+            __main__.CustomWebSocketClient._write -> ws4py.websocket.WebSocket._write
 
-                # ----- Write bytes to socket -----
+                # ----- Write to socket -----
                 socket.socket.sendall -> _socket.socket.sendall
 
     # ----- Loop to call `once` -----
@@ -186,19 +186,19 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
     """
 
         # ----- Call `once` -----
-        __main__.CustomClient.once -> ws4py.websocket.WebSocket.once
+        __main__.CustomWebSocketClient.once -> ws4py.websocket.WebSocket.once
 
             # ----- Read from socket -----
             # `b'\x81\x05'` means single-frame unmasked text message.
             socket.socket.recv -> _socket.socket.recv <= b'\x81\x05'
 
             # ----- Call `process` -----
-            __main__.CustomClient.process -> ws4py.websocket.WebSocket.process
+            __main__.CustomWebSocketClient.process -> ws4py.websocket.WebSocket.process
 
                 # ----- Access `ws4py.streaming.Stream.parser` property -----
                 # This property returns stream generator.
                 #
-                # If None it initializes the frame generator.
+                # If None it initializes the stream generator.
                 #
                 # The stream generator uses bytes sent to it to build message.
                 #
@@ -216,15 +216,14 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                         return self._parser
                     """
 
-                    # ----- Call generator function `ws4py.streaming.Stream.receiver` -----
-                    # This creates the stream generator.
+                    # ----- Create stream generator -----
+                    # `receiver` is generator function.
                     ws4py.streaming.Stream.receiver
 
-                    # ----- Set `_parser` -----
-                    # Store the stream generator.
+                    # ----- Store stream generator -----
                     ws4py.streaming.Stream.__setattr__ -> builtins.object.__setattr__ => ( name='_parser'
 
-                    # ----- Call the stream generator -----
+                    # ----- Call stream generator -----
                     """
                     next(self.parser)
                     """
@@ -266,20 +265,20 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                                 return self._parser
                             """
 
-                                # ----- Call generator function `ws4py.framing.Frame._parsing` -----
-                                # This creates the frame generator.
+                                # ----- Create frame generator. -----
+                                # `_parsing` is generator function.
                                 ws4py.framing.Frame._parsing
 
-                                # ----- Store the frame generator -----
+                                # ----- Store frame generator -----
                                 ws4py.framing.Frame.__setattr__ -> builtins.object.__setattr__ => ( name='_parser'
 
-                                # ----- Call the frame generator -----
+                                # ----- Call frame generator -----
                                 """
                                 next(self.parser)
                                 """
 
                                     # ----- Generator code inside `ws4py.framing.Frame._parsing` -----
-                                    # Return control to caller
+                                    # Return control to caller.
                                     """
                                     while not some_bytes:
                                         some_bytes = (yield 1)
@@ -291,7 +290,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                         """
 
                             # ----- Generator code inside `ws4py.framing.Frame._parsing` -----
-                            # Return control to caller
+                            # Return control to caller.
                             """
                             while not some_bytes:
                                 some_bytes = (yield 1)
@@ -302,7 +301,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                         some_bytes = (yield next(frame.parser))
                         """
 
-                # ----- Send received bytes to the stream generator -----
+                # ----- Send received bytes to stream generator -----
                 # The stream generator's yielded value is the next reading's
                 # expected buffer size.
                 """
@@ -310,15 +309,15 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                 """
 
         # ----- Call `once` -----
-        __main__.CustomClient.once -> ws4py.websocket.WebSocket.once
+        __main__.CustomWebSocketClient.once -> ws4py.websocket.WebSocket.once
 
             # ----- Read from socket -----
             socket.socket.recv -> _socket.socket.recv <= b'hello'
 
                 # ----- Call `process` -----
-                __main__.CustomClient.process -> ws4py.websocket.WebSocket.process
+                __main__.CustomWebSocketClient.process -> ws4py.websocket.WebSocket.process
 
-                    # ----- Send received bytes to the stream generator -----
+                    # ----- Send received bytes to stream generator -----
                     """
                     self.reading_buffer_size = s.parser.send(bytes) or DEFAULT_READING_SIZE
                     """
@@ -329,7 +328,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                         # ----- Call `_cleanup` because the frame is complete -----
                         ws4py.framing.Frame._cleanup
 
-                        # ----- Remove the frame generator -----
+                        # ----- Remove frame generator -----
                         ws4py.framing.Frame.__setattr__ -> builtins.object.__setattr__ => ( name='_parser', value=None )
 
                         # ----- Create `TextMessage` -----
@@ -362,21 +361,21 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                         # ----- Create `Frame` -----
                         ws4py.framing.Frame.__init__
 
-                    # ----- If has received a message -----
+                    # ----- If have received a message -----
                     """
                     if s.has_message:
                     """
 
                         # ----- Call `received_message` -----
-                        __main__.CustomClient.received_message
+                        __main__.CustomWebSocketClient.received_message
 
                             # ----- Call `close` -----
-                            __main__.CustomClient.close -> ws4py.client.WebSocketBaseClient.close
+                            __main__.CustomWebSocketClient.close -> ws4py.client.WebSocketBaseClient.close
 
                                 # ----- Set `client_terminated` -----
-                                __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=True )
+                                __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=True )
 
-                                # ----- Call `close` on Stream object -----
+                                # ----- Call `close` on `Stream` -----
                                 ws4py.streaming.Stream.close
 
                                 # ----- Create `CloseControlMessage` -----
@@ -403,37 +402,37 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                                     ws4py.framing.Frame.build
 
                                 # ----- Write frame bytes to server -----
-                                __main__.CustomClient._write -> ws4py.websocket.WebSocket._write
+                                __main__.CustomWebSocketClient._write -> ws4py.websocket.WebSocket._write
 
                                     # ----- Write to socket -----
                                     socket.socket.sendall -> _socket.socket.sendall
 
         # ----- Call `once` -----
-        __main__.CustomClient.once -> ws4py.websocket.WebSocket.once
+        __main__.CustomWebSocketClient.once -> ws4py.websocket.WebSocket.once
 
             # ----- Read from socket -----
             socket.socket.recv -> _socket.socket.recv <= b'\x88'
 
             # ----- Call `process` -----
-            __main__.CustomClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x88' )
+            __main__.CustomWebSocketClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x88' )
 
         # ----- Call `once` -----
-        __main__.CustomClient.once -> ws4py.websocket.WebSocket.once
+        __main__.CustomWebSocketClient.once -> ws4py.websocket.WebSocket.once
 
             # ----- Read from socket -----
             socket.socket.recv -> _socket.socket.recv <= b'\x02'
 
             # ----- Call `process` -----
-            __main__.CustomClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x02' )
+            __main__.CustomWebSocketClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x02' )
 
         # ----- Call `once` -----
-        __main__.CustomClient.once -> ws4py.websocket.WebSocket.once
+        __main__.CustomWebSocketClient.once -> ws4py.websocket.WebSocket.once
 
             # ----- Read from socket -----
             socket.socket.recv -> _socket.socket.recv <= b'\x03\xe8'
 
             # ----- Call `process` -----
-            __main__.CustomClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x03\xe8' )
+            __main__.CustomWebSocketClient.process -> ws4py.websocket.WebSocket.process => ( bytes=b'\x03\xe8' )
 
                 # ----- Create `CloseControlMessage` -----
                 ws4py.messaging.CloseControlMessage.__init__ => ( code=1000, reason=b'' )
@@ -450,7 +449,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
                 """
 
                     # ----- Call `close` -----
-                    __main__.CustomClient.close -> ws4py.client.WebSocketBaseClient.close => ( code=1000, reason=b'' )
+                    __main__.CustomWebSocketClient.close -> ws4py.client.WebSocketBaseClient.close => ( code=1000, reason=b'' )
 
     # ----- Loop ends -----
     """
@@ -464,19 +463,19 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
     """
 
     # ----- Call `terminate` -----
-    __main__.CustomClient.terminate -> ws4py.websocket.WebSocket.terminate
+    __main__.CustomWebSocketClient.terminate -> ws4py.websocket.WebSocket.terminate
 
         # ----- Set `client_terminated` -----
-        __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=True )
+        __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='client_terminated', value=True )
 
         # ----- Set `server_terminated` -----
-        __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='server_terminated', value=True )
+        __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='server_terminated', value=True )
 
         # ----- Call `closed` -----
-        __main__.CustomClient.closed => ( code=1000, reason=b'' )
+        __main__.CustomWebSocketClient.closed => ( code=1000, reason=b'' )
 
         # ----- Call `close_connection` -----
-        __main__.CustomClient.close_connection -> ws4py.websocket.WebSocket.close_connection
+        __main__.CustomWebSocketClient.close_connection -> ws4py.websocket.WebSocket.close_connection
 
             # ----- Close socket connection -----
             socket.socket.shutdown -> _socket.socket.shutdown
@@ -485,7 +484,7 @@ T1: __main__.CustomClient.run -> ws4py.websocket.WebSocket.run
             socket.socket.close
 
             # ----- Set `sock` be None -----
-            __main__.CustomClient.__setattr__ -> builtins.object.__setattr__ => ( name='sock', value=None )
+            __main__.CustomWebSocketClient.__setattr__ -> builtins.object.__setattr__ => ( name='sock', value=None )
 
         # ----- Call `_cleanup` -----
         ws4py.streaming.Stream._cleanup
