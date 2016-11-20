@@ -13,5 +13,5 @@ Tested working with:
 
 Trace call using [AoikTraceCall](https://github.com/AoiKuiyuyou/AoikTraceCall):
 - [WebSocketClientTraceCall.py](/src/WebSocketClientTraceCall.py)
-- [WebSocketClientTraceCallLog.txt](/src/WebSocketClientTraceCallLog.txt?raw=True)
-- [WebSocketClientTraceCallNotes.txt](/src/WebSocketClientTraceCallNotes.txt?raw=True)
+- [WebSocketClientTraceCallLogPy3.txt](/src/WebSocketClientTraceCallLogPy3.txt?raw=True)
+- [WebSocketClientTraceCallNotesPy3.txt](/src/WebSocketClientTraceCallNotesPy3.txt?raw=True)
